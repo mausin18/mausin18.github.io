@@ -90,6 +90,56 @@
       box-shadow: 0 6px 16px var(--sombra-oscura);
     }
 
+    .flecha {
+	  position: absolute;
+	  top: 50%;
+	  transform: translateY(-50%);
+	  background-color: var(--borde-claro); /* fondo verde */
+	  border: none;
+	  border-radius: 0; /* sin forma circular */
+	  width: 5px;     /* estrecha */
+	  height: 50px;    /* alargada */
+	  cursor: pointer;
+	  transition: transform 0.2s ease, background-color 0.3s ease;
+	  z-index: 2;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  padding: 0;
+	  }
+
+    /* Pseudo-elemento para el cuadrado blanco con la flecha */
+    .flecha::before {
+      content: attr(data-arrow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 12px;      /* ancho del cuadrado */
+      height: 12px;     /* alto del cuadrado */
+      background-color: #fff; /* cuadrado blanco */
+      color: var(--borde-claro); /* color de la flecha (verde) */
+      font-size: 1rem;
+      border: 1px solid var(--borde-claro); /* opcional: para definir el contorno del cuadrado */
+      box-sizing: border-box;
+    }
+
+    .flecha:hover {
+      background-color: var(--borde-oscuro);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Posicionar las flechas a los extremos del contenedor */
+    .flecha.izquierda {
+      left: 0;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+    .flecha.derecha {
+      right: 0;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
     /* Botón de cambio de tema */
     .cambiar-tema {
       position: fixed;
@@ -163,7 +213,14 @@
 </head>
 <body>
   <h2>Comentarios de los ciudadanos</h2>
-  <div id="comentarios">Cargando comentarios...</div>   
+  <div id="comentarios">
+    <!-- Flechas estilo pestaña -->
+    <button class="flecha izquierda" onclick="cambiarComentario(-1)"></button>
+    <div id="contenidoComentario">
+      Cargando comentarios...
+    </div>
+    <button class="flecha derecha" onclick="cambiarComentario(1)"></button>
+  </div> 
   <div id="estadisticas">Cargando estadísticas...</div>
   <button class="cambiar-tema" onclick="cambiarTema()">🌙</button>
 
