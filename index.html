@@ -21,7 +21,7 @@
       --sombra-oscura: rgba(0, 0, 0, 0.3);
       --transicion-suave: 0.3s ease-in-out;
     }
-
+    
     /* Estilo global */
     body {
       font-family: 'Roboto', sans-serif;
@@ -30,105 +30,96 @@
       background-color: var(--fondo-claro);
       color: var(--texto-claro);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       transition: background-color var(--transicion-suave), color var(--transicion-suave);
     }
-
+    
     /* Título */
     h2 {
       font-size: 2.5rem;
-      margin-bottom: 30px;
+      margin: 30px 0;
       text-align: center;
-      font-weight: 600;
     }
-
+    
     /* Contenedor de los comentarios */
     #comentarios {
+      position: relative;
       width: 85%;
       max-width: 900px;
-      margin: 20px auto;
-      padding: 25px;
       background-color: var(--comentario-claro);
       border-radius: 12px;
       box-shadow: 0 4px 20px var(--sombra-larga);
-      max-height: 60vh;
-      overflow-y: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      transition: background-color var(--transicion-suave), box-shadow var(--transicion-suave);
+      overflow: hidden;
+      padding: 20px;
       text-align: center;
+      margin-bottom: 20px;
     }
-
+    
     /* Comentarios individuales */
     .comentario {
       background: var(--comentario-claro);
       padding: 20px;
-      margin: 15px 0;
+      margin: 0 auto;
       border-radius: 10px;
       box-shadow: 0 4px 12px var(--sombra-larga);
-      transition: transform var(--transicion-suave), box-shadow var(--transicion-suave);
       border-left: 6px solid var(--borde-claro);
       opacity: 0;
       animation: fadeIn 1s forwards;
+      max-width: 100%;
     }
-
-    /* Animación de aparición de los comentarios */
+    
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-
+    
     .comentario:hover {
       transform: translateY(-5px);
       box-shadow: 0 6px 16px var(--sombra-oscura);
+      cursor: pointer;
     }
-
+    
+    /* Flechas estilo pestaña, más alargadas y estrechas */
     .flecha {
-	  position: absolute;
-	  top: 50%;
-	  transform: translateY(-50%);
-	  background-color: var(--borde-claro); /* fondo verde */
-	  border: none;
-	  border-radius: 0; /* sin forma circular */
-	  width: 5px;     /* estrecha */
-	  height: 50px;    /* alargada */
-	  cursor: pointer;
-	  transition: transform 0.2s ease, background-color 0.3s ease;
-	  z-index: 2;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  padding: 0;
-	  }
-
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--borde-claro); /* fondo verde */
+      border: none;
+      border-radius: 0;
+      width: 5px;     /* poco ancho */
+      height: 50px;    /* alargada */
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    
     /* Pseudo-elemento para el cuadrado blanco con la flecha */
     .flecha::before {
       content: attr(data-arrow);
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 12px;      /* ancho del cuadrado */
-      height: 12px;     /* alto del cuadrado */
-      background-color: #fff; /* cuadrado blanco */
-      color: var(--borde-claro); /* color de la flecha (verde) */
+      width: 12px;
+      height: 12px;
+      background-color: #fff;
+      color: var(--borde-claro);
       font-size: 1rem;
-      border: 1px solid var(--borde-claro); /* opcional: para definir el contorno del cuadrado */
+      border: 1px solid var(--borde-claro);
       box-sizing: border-box;
     }
-
+    
     .flecha:hover {
       background-color: var(--borde-oscuro);
       transform: translateY(-50%) scale(1.05);
     }
-
-    /* Posicionar las flechas a los extremos del contenedor */
+    
     .flecha.izquierda {
       left: 0;
       border-top-right-radius: 6px;
@@ -139,7 +130,20 @@
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
     }
-
+    
+    /* Recuadro de estadísticas */
+    #estadisticas {
+      width: 85%;
+      max-width: 900px;
+      background-color: var(--comentario-claro);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px var(--sombra-larga);
+      padding: 20px;
+      text-align: center;
+      transition: background-color var(--transicion-suave), box-shadow var(--transicion-suave);
+      margin-bottom: 20px;
+    }
+    
     /* Botón de cambio de tema */
     .cambiar-tema {
       position: fixed;
@@ -152,157 +156,137 @@
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 4px 12px var(--sombra-larga);
-      transition: background-color var(--transicion-suave), box-shadow var(--transicion-suave);
       font-size: 1.5rem;
+      transition: background-color var(--transicion-suave), box-shadow var(--transicion-suave);
     }
-
     .cambiar-tema:hover {
       background-color: var(--boton-oscuro);
       box-shadow: 0 4px 16px var(--sombra-oscura);
     }
-
-    /* Tema oscuro */
+    
+    /* Modo oscuro */
     body.tema-oscuro {
       background-color: var(--fondo-oscuro);
       color: var(--texto-oscuro);
     }
-
     body.tema-oscuro #comentarios {
       background-color: var(--comentario-oscuro);
       box-shadow: 0 4px 20px var(--sombra-oscura);
     }
-
     body.tema-oscuro .comentario {
       background: var(--comentario-oscuro);
       border-left: 6px solid var(--borde-oscuro);
     }
-
+    body.tema-oscuro #estadisticas {
+      background-color: var(--comentario-oscuro);
+      box-shadow: 0 4px 20px var(--sombra-oscura);
+    }
     body.tema-oscuro .cambiar-tema {
       background-color: var(--boton-oscuro);
       color: var(--texto-oscuro);
     }
-
     body.tema-oscuro .cambiar-tema:hover {
       background-color: #444;
     }
-
-    /* Estilo para los navegadores Webkit (Chrome, Safari) */
+    
+    /* Ocultar scrollbar en Webkit */
     #comentarios::-webkit-scrollbar {
       display: none;
-    }
-
-    /* Estilo de las estadísticas */
-    #estadisticas {
-      width: 85%;
-      max-width: 900px;
-      margin-top: 20px;
-      padding: 20px;
-      background-color: var(--comentario-claro);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px var(--sombra-larga);
-      text-align: center;
-      transition: background-color var(--transicion-suave), box-shadow var(--transicion-suave);
-    }
-
-    /* Estilo de las estadísticas en tema oscuro */
-    body.tema-oscuro #estadisticas {
-      background-color: var(--comentario-oscuro);
-      box-shadow: 0 4px 20px var(--sombra-oscura);
     }
   </style>
 </head>
 <body>
   <h2>Comentarios de los ciudadanos</h2>
   <div id="comentarios">
-    <!-- Flechas estilo pestaña -->
+    <!-- Flechas estilo pestaña con data-arrow -->
     <button class="flecha izquierda" onclick="cambiarComentario(-1)"></button>
     <div id="contenidoComentario">
       Cargando comentarios...
     </div>
     <button class="flecha derecha" onclick="cambiarComentario(1)"></button>
-  </div> 
+  </div>
   <div id="estadisticas">Cargando estadísticas...</div>
   <button class="cambiar-tema" onclick="cambiarTema()">🌙</button>
-
+  
   <script>
+    let comentarios = [];
+    let indiceComentario = 0;
+    let autoInterval;
+    
     async function obtenerComentarios() {
       try {
-      const response = await fetch('https://mquzx.top/api/comentarios');
-      if (!response.ok) throw new Error("Error en la petición");
-      const data = await response.json();
-  
-      mostrarComentarios(data.comentarios);
-      mostrarEstadisticas(data.estadisticas.respuestasSi, data.estadisticas.respuestasNo);
+        const response = await fetch('http://mquzx.top/api/comentarios');
+        if (!response.ok) throw new Error("Error en la petición");
+        const data = await response.json();
+        comentarios = data.comentarios;
+        mostrarComentario(indiceComentario);
+        mostrarEstadisticas(data.estadisticas.respuestasSi, data.estadisticas.respuestasNo);
+        iniciarAutoAvance();
       } catch (error) {
-      console.error("Error:", error);
-      document.getElementById("comentarios").innerHTML = "<p>Error al cargar los comentarios.</p>";
+        console.error("Error:", error);
+        document.getElementById("contenidoComentario").innerHTML = "<p>Error al cargar los comentarios.</p>";
       }
     }
-  
+    
     function formatoComentario(comentario) {
       return comentario.replace(/\n/g, '<br>');
     }
-  
-    function mostrarComentarios(comentarios) {
+    
+    function mostrarComentario(indice) {
       if (comentarios.length === 0) {
-      document.getElementById("comentarios").innerHTML = "<p>No hay comentarios aún.</p>";
-      return;
+        document.getElementById("contenidoComentario").innerHTML = "<p>No hay comentarios aún.</p>";
+        return;
       }
-      document.getElementById("comentarios").innerHTML = `<div class="comentario"><p><strong>${comentarios[0].autor}:</strong> ${formatoComentario(comentarios[0].texto)}</p></div>`;
-      let indiceComentario = 1;
-      setInterval(() => {
-      if (indiceComentario < comentarios.length) {
-        const comentario = comentarios[indiceComentario];
-        document.getElementById("comentarios").innerHTML = `<div class="comentario"><p><strong>${comentario.autor}:</strong> ${formatoComentario(comentario.texto)}</p></div>`;
-        indiceComentario++;
-      } else {
-        indiceComentario = 0;
-      }
-      }, 14000);
+      document.getElementById("contenidoComentario").innerHTML = `
+        <div class="comentario" onclick="centrarComentario(this)">
+          <p><strong>${comentarios[indice].autor}:</strong> ${formatoComentario(comentarios[indice].texto)}</p>
+        </div>
+      `;
     }
-  
+    
+    function cambiarComentario(direccion) {
+      clearInterval(autoInterval);
+      indiceComentario = (indiceComentario + direccion + comentarios.length) % comentarios.length;
+      mostrarComentario(indiceComentario);
+      iniciarAutoAvance();
+    }
+    
+    function centrarComentario(elemento) {
+      elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
     function mostrarEstadisticas(respuestasSi, respuestasNo) {
       const total = respuestasSi + respuestasNo;
       const porcentajeSi = total > 0 ? ((respuestasSi / total) * 100).toFixed(2) : 0;
       const porcentajeNo = total > 0 ? ((respuestasNo / total) * 100).toFixed(2) : 0;
-  
       document.getElementById("estadisticas").innerHTML = `
-      <p><strong>Estadísticas de la pregunta:</strong></p>
-      <p>¿Apoyas la solicitud para reinstalar la iluminación en la pista de skate?</p>
-      <p><strong>Sí:</strong> ${respuestasSi} (${porcentajeSi}%) | <strong>No:</strong> ${respuestasNo} (${porcentajeNo}%)</p>
+        <p><strong>Estadísticas de la pregunta:</strong></p>
+        <p>¿Apoyas la solicitud para reinstalar la iluminación en la pista de skate?</p>
+        <p><strong>Sí:</strong> ${respuestasSi} (${porcentajeSi}%) | <strong>No:</strong> ${respuestasNo} (${porcentajeNo}%)</p>
       `;
     }
-  
-    // Función para actualizar estadísticas en tiempo real
-    function actualizarEstadisticasTiempoReal() {
-      setInterval(async () => {
-      try {
-        const response = await fetch('https://mquzx.top/api/comentarios');
-        if (!response.ok) throw new Error("Error en la petición");
-        const data = await response.json();
-  
-        mostrarEstadisticas(data.estadisticas.respuestasSi, data.estadisticas.respuestasNo);
-      } catch (error) {
-        console.error("Error al actualizar estadísticas:", error);
-      }
-      }, 7000);
+    
+    function iniciarAutoAvance() {
+      autoInterval = setInterval(() => {
+        indiceComentario = (indiceComentario + 1) % comentarios.length;
+        mostrarComentario(indiceComentario);
+      }, 12000);
     }
-  
+    
     function cambiarTema() {
       document.body.classList.toggle('tema-oscuro');
       const icono = document.querySelector('.cambiar-tema');
       icono.textContent = document.body.classList.contains('tema-oscuro') ? '🌞' : '🌙';
     }
-  
+    
     function establecerTemaSegunSistema() {
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('tema-oscuro');
+        document.body.classList.add('tema-oscuro');
       }
     }
-  
+    
     establecerTemaSegunSistema();
     obtenerComentarios();
-    actualizarEstadisticasTiempoReal();
-    </script>
+  </script>
 </body>
 </html>
