@@ -171,6 +171,19 @@
       background-color: var(--comentario-oscuro);
       box-shadow: 0 4px 20px var(--sombra-oscura);
     }
+
+    /* Contador de comentarios */
+    #contadorComentarios {
+      font-size: 1.2rem;
+      color: var(--texto-claro);
+      font-weight: bold;
+      margin: 0 15px;
+    }
+
+    /* Cambio de color en modo oscuro */
+    body.tema-oscuro #contadorComentarios {
+      color: var(--texto-oscuro);
+    }
   </style>
 </head>
 <body>
@@ -178,6 +191,7 @@
   <div id="comentarios">Cargando comentarios...</div>
   <div>
     <span class="flecha" onclick="navegarComentarios(-1)">←</span>
+    <span id="contadorComentarios">1/20</span>
     <span class="flecha" onclick="navegarComentarios(1)">→</span>
   </div>
   <div id="estadisticas">Cargando estadísticas...</div>
@@ -187,6 +201,10 @@
   <script>
     let indiceComentario = 0;
     let comentarios = [];
+    let timerPregunta = null;
+    const intervaloActualizar = 10000;  // Actualizar cada 10 segundos
+    let timerInactividad = null;
+    const tiempoInactividad = 13500;  // 10 segundos de inactividad
 
     async function obtenerComentarios() {
       try {
@@ -212,6 +230,8 @@
         return;
       }
       document.getElementById("comentarios").innerHTML = `<div class="comentario"><p><strong>${comentarios[indiceComentario].autor}:</strong> ${formatoComentario(comentarios[indiceComentario].texto)}</p></div>`;
+      document.getElementById("contadorComentarios").textContent = `${indiceComentario + 1}/${comentarios.length}`;
+      resetearTemporizadorInactividad();
     }
 
     function navegarComentarios(direccion) {
@@ -236,20 +256,27 @@
       `;
     }
 
-    function cambiarTema() {
-      document.body.classList.toggle('tema-oscuro');
-      const icono = document.querySelector('.cambiar-tema');
-      icono.textContent = document.body.classList.contains('tema-oscuro') ? '🌞' : '🌙';
+    function resetearTemporizadorInactividad() {
+      clearTimeout(timerInactividad);
+      timerInactividad = setTimeout(() => {
+        navegarComentarios(1);  // Cambiar automáticamente al siguiente comentario
+      }, tiempoInactividad);
     }
 
     function establecerTemaSegunSistema() {
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('tema-oscuro');
+        document.body.classList.add("tema-oscuro");
       }
     }
 
-    establecerTemaSegunSistema();
+    function cambiarTema() {
+      document.body.classList.toggle("tema-oscuro");
+    }
+
+    // Llamada inicial para obtener comentarios
     obtenerComentarios();
+    establecerTemaSegunSistema();
+
   </script>
 </body>
 </html>
