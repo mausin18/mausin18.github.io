@@ -43,6 +43,7 @@
       margin-bottom: 30px;
       text-align: center;
       font-weight: 600;
+	  word-wrap: break-word;
     }
 
     /* Contenedor de los comentarios */
@@ -164,6 +165,7 @@
       box-shadow: 0 4px 20px var(--sombra-larga);
       text-align: center;
       transition: background-color var(--transicion-suave), box-shadow var(--transicion-suave);
+	  word-wrap: break-word;
     }
 
     /* Estilo de las estadísticas en tema oscuro */
@@ -184,6 +186,27 @@
     body.tema-oscuro #contadorComentarios {
       color: var(--texto-oscuro);
     }
+	
+	@media screen and (max-width: 600px) {
+	  h2 {
+		font-size: 1.8rem; /* Tamaño más pequeño del título en móviles */
+		margin-bottom: 15px; /* Reduce el margen inferior */
+	  }
+
+	  #estadisticas p {
+		font-size: 1rem; /* Reduce el tamaño de fuente para el texto dentro de las estadísticas */
+	  }
+
+	  #comentarios {
+		padding: 15px; /* Reduce el padding dentro del contenedor de comentarios */
+	  }
+
+	  #comentarios .comentario {
+		padding: 15px; /* Reduce el padding dentro de cada comentario */
+		font-size: 0.9rem; /* Ajusta el tamaño de la fuente dentro de los comentarios */
+	  }
+	}
+
   </style>
 </head>
 <body>
