@@ -779,7 +779,7 @@
 
             let profileLink = '';
 
-            if(username.startsWith('http://') || username.startsWith('https://')){
+            if(username.toLowerCase().startsWith('http://') || username.toLowerCase().startsWith('https://')){
                 profileLink = username;
             } else {
                 username = username.replace(/^@/, '');
