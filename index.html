@@ -793,8 +793,14 @@
                 }
             }
 
-            let message = `Hola Seguidores Ya 👋%0A%0AQuiero comprar seguidores.%0A%0A📱 Plataforma: ${selectedPlatform}%0A👥 Cantidad: ${followers}%0A🔗 Perfil: ${profileLink}`;
-            let url = `https://wa.me/593963709303?text=${encodeURIComponent(message)}`;
+			let message = `Hola Seguidores Ya 👋
+
+Quiero comprar seguidores.
+
+📱 Plataforma: ${selectedPlatform}
+👥 Cantidad: ${followers}
+🔗 Perfil: ${profileLink}`;
+			let url = `https://wa.me/593963709303?text=${encodeURIComponent(message)}`;
 
             window.open(url, '_blank');
         }
