@@ -218,13 +218,19 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
+					<a href="#referidos"
+					class="pulse-btn bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 px-7 py-4 rounded-2xl font-extrabold text-white text-center shadow-lg shadow-orange-500/30 hover:scale-105 hover:shadow-orange-500/50 transition-all duration-300">
+						<i class="fa-solid fa-gift mr-2"></i>
+						Seguidores Gratis
+					</a>
+				
                     <a href="#planes" class="pulse-btn bg-gradient-to-r from-fuchsia-600 to-violet-600 px-7 py-4 rounded-2xl font-bold text-center hover:scale-105 transition-all duration-300">
                         Comprar Ahora
                     </a>
 
                     <a href="#metodos" class="border border-white/20 px-7 py-4 rounded-2xl font-semibold hover:bg-white/10 transition-all duration-300 text-center">
                         Método de Pago
-                    </a>
+					</a>
                 </div>
 
                 <div class="flex flex-wrap justify-center md:justify-start gap-6 mt-10 text-gray-300">
@@ -467,7 +473,7 @@
     </section>
 
     <!-- Referidos -->
-    <section class="py-24 px-5">
+    <section id="referidos" class="py-24 px-5">
         <div class="max-w-6xl mx-auto">
             <div class="bg-gradient-to-br from-fuchsia-600/20 to-violet-600/20 border border-fuchsia-500/20 rounded-[35px] p-5 md:p-10 relative overflow-hidden">
 
@@ -538,10 +544,47 @@
                             </div>
                         </div>
                     </div>
+						<button onclick="openReferralModal()" class="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-600 to-violet-600 px-6 py-4 rounded-2xl font-bold hover:scale-105 transition-all duration-300">
+							<i class="fa-solid fa-link"></i>
+							Generar enlace de referido
+						</button>
+						<div id="referralModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[9999] p-4">
+							<div class="bg-[#0b1020] border border-white/10 rounded-[30px] p-6 w-full max-w-md relative overflow-hidden">
+								<div class="absolute top-0 right-0 w-40 h-40 bg-violet-600/20 blur-3xl rounded-full"></div>
+
+								<div class="relative z-10">
+									<div class="flex items-center justify-between mb-6">
+										<h2 class="text-2xl font-bold">Enlace de referido</h2>
+										<button onclick="closeReferralModal()" class="text-3xl hover:text-fuchsia-400 transition-all duration-300">&times;</button>
+									</div>
+
+									<div class="space-y-4">
+										<div>
+											<label class="text-sm text-gray-400 mb-2 block">Usuario de Instagram</label>
+											<input id="refUsername" type="text" placeholder="juanito" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-fuchsia-500 transition-all duration-300">
+										</div>
+
+										<div>
+											<label class="text-sm text-gray-400 mb-2 block">Link generado</label>
+											<input id="refLink" type="text" readonly class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-mono text-sm cursor-not-allowed opacity-90">
+										</div>
+
+										<button onclick="generateReferralLink()" class="w-full bg-gradient-to-r from-fuchsia-600 to-violet-600 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all duration-300">
+											Generar enlace
+										</button>
+
+										<button onclick="copyReferralLink()" class="w-full border border-white/15 bg-white/5 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all duration-300">
+											Copiar enlace
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Métodos -->
     <section id="metodos" class="py-24 px-5 bg-white/5 border-y border-white/10">
@@ -709,6 +752,7 @@
 
     <script>
         let selectedPlatform = 'Instagram';
+		let referralCode = new URLSearchParams(window.location.search).get('ref') || '';
 
         function openModal(amount){
             document.getElementById('orderModal').classList.remove('hidden');
@@ -723,6 +767,59 @@
             document.getElementById('orderModal').classList.add('hidden');
             document.getElementById('orderModal').classList.remove('flex');
         }
+		
+		function openReferralModal(){
+			document.getElementById('referralModal').classList.remove('hidden');
+			document.getElementById('referralModal').classList.add('flex');
+
+			const refInput = document.getElementById('refUsername');
+			const refLink = document.getElementById('refLink');
+
+			if(referralCode){
+				refInput.value = referralCode;
+				refLink.value = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(referralCode)}`;
+			}
+		}
+
+		function closeReferralModal(){
+			document.getElementById('referralModal').classList.add('hidden');
+			document.getElementById('referralModal').classList.remove('flex');
+		}
+
+		function generateReferralLink(){
+			const input = document.getElementById('refUsername');
+			const refLink = document.getElementById('refLink');
+			const username = input.value.trim().replace(/^@/, '');
+
+			if(username === ''){
+				showWarning('Por favor ingresa un usuario de Instagram.');
+				input.classList.add('shake');
+				setTimeout(() => input.classList.remove('shake'), 400);
+				return;
+			}
+
+			referralCode = username;
+			refLink.value = `${window.location.origin}${window.location.pathname}?ref=${encodeURIComponent(username)}`;
+		}
+
+		async function copyReferralLink(){
+			const refLink = document.getElementById('refLink');
+			const link = refLink.value.trim();
+
+			if(link === ''){
+				showWarning('Primero genera un enlace de referido.');
+				return;
+			}
+
+			try{
+				await navigator.clipboard.writeText(link);
+				showWarning('Enlace copiado.');
+			}catch(e){
+				refLink.select();
+				document.execCommand('copy');
+				showWarning('Enlace copiado.');
+			}
+		}
 
         function selectPlatform(platform){
             selectedPlatform = platform;
@@ -798,10 +895,15 @@ Quiero comprar seguidores.
 📱 Plataforma: ${selectedPlatform}
 👥 Cantidad: ${followers}
 🔗 Perfil: ${profileLink}`;
+if(referralCode){
+    message += `
+🤝 Referido por: ${referralCode}`;
+}
 			let url = `https://wa.me/593963709303?text=${encodeURIComponent(message)}`;
 
             window.open(url, '_blank');
         }
+		
 
         document.getElementById('year').textContent = new Date().getFullYear();
 
