@@ -548,38 +548,6 @@
 							<i class="fa-solid fa-link"></i>
 							Generar enlace de referido
 						</button>
-						<div id="referralModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[9999] p-4">
-							<div class="bg-[#0b1020] border border-white/10 rounded-[30px] p-6 w-full max-w-md relative overflow-hidden">
-								<div class="absolute top-0 right-0 w-40 h-40 bg-violet-600/20 blur-3xl rounded-full"></div>
-
-								<div class="relative z-10">
-									<div class="flex items-center justify-between mb-6">
-										<h2 class="text-2xl font-bold">Enlace de referido</h2>
-										<button onclick="closeReferralModal()" class="text-3xl hover:text-fuchsia-400 transition-all duration-300">&times;</button>
-									</div>
-
-									<div class="space-y-4">
-										<div>
-											<label class="text-sm text-gray-400 mb-2 block">Usuario de Instagram</label>
-											<input id="refUsername" type="text" placeholder="juanito" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-fuchsia-500 transition-all duration-300">
-										</div>
-
-										<div>
-											<label class="text-sm text-gray-400 mb-2 block">Link generado</label>
-											<input id="refLink" type="text" readonly class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-mono text-sm cursor-not-allowed opacity-90">
-										</div>
-
-										<button onclick="generateReferralLink()" class="w-full bg-gradient-to-r from-fuchsia-600 to-violet-600 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all duration-300">
-											Generar enlace
-										</button>
-
-										<button onclick="copyReferralLink()" class="w-full border border-white/15 bg-white/5 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all duration-300">
-											Copiar enlace
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
                 </div>
             </div>
         </div>
@@ -749,6 +717,40 @@
             </div>
         </div>
     </div>
+	
+	<!-- Modal Referido -->
+	<div id="referralModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[9999] p-4">
+	<div class="bg-[#0b1020] border border-white/10 rounded-[30px] p-6 w-full max-w-md relative overflow-hidden">
+		<div class="absolute top-0 right-0 w-40 h-40 bg-violet-600/20 blur-3xl rounded-full"></div>
+
+		<div class="relative z-10">
+			<div class="flex items-center justify-between mb-6">
+				<h2 class="text-2xl font-bold">Enlace de referido</h2>
+				<button onclick="closeReferralModal()" class="text-3xl hover:text-fuchsia-400 transition-all duration-300">&times;</button>
+			</div>
+
+			<div class="space-y-4">
+				<div>
+					<label class="text-sm text-gray-400 mb-2 block">Usuario de Instagram</label>
+					<input id="refUsername" type="text" placeholder="juanito" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder:text-gray-500 focus:outline-none focus:border-fuchsia-500 transition-all duration-300">
+				</div>
+
+				<div>
+					<label class="text-sm text-gray-400 mb-2 block">Link generado</label>
+					<input id="refLink" type="text" readonly class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-mono text-sm cursor-not-allowed opacity-90">
+				</div>
+
+				<button onclick="generateReferralLink()" class="w-full bg-gradient-to-r from-fuchsia-600 to-violet-600 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition-all duration-300">
+					Generar enlace
+				</button>
+
+				<button onclick="copyReferralLink()" class="w-full border border-white/15 bg-white/5 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition-all duration-300">
+					Copiar enlace
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 
     <script>
         let selectedPlatform = 'Instagram';
