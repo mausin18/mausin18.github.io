@@ -1234,15 +1234,16 @@
         let currentServiceType = 'seguidores';
         let referralCode = new URLSearchParams(window.location.search).get('ref') || '';
 
-        // Funciones modales (sin cambios)
-        function openModal(amount, type) {
+        // === MODIFICADA: openModal ahora acepta plataforma opcional ===
+        function openModal(amount, type, presetPlatform = 'Instagram') {
             currentServiceType = type;
             document.getElementById('orderModal').classList.remove('hidden');
             document.getElementById('orderModal').classList.add('flex');
             document.getElementById('followers').value = amount + (type === 'likes' ? ' Likes' : ' Seguidores');
             document.getElementById('username').value = '';
             hideWarning();
-            selectPlatform('Instagram');
+            // Usar la plataforma recibida (por defecto Instagram)
+            selectPlatform(presetPlatform);
             updateProfileField();
         }
 
@@ -1303,13 +1304,16 @@
             display.textContent = '$' + price.toFixed(2);
             detail.textContent = customPlatform + ' - ' + qty.toLocaleString() + ' ' + (type === 'seguidores' ? 'seguidores' : 'likes');
         }
+        // === MODIFICADA: buyCustom ahora pasa la plataforma y el precio correcto ===
         function buyCustom() {
             const type = document.getElementById('customType').value;
             const qty = parseInt(document.getElementById('customQuantity').value);
             if (isNaN(qty) || qty < 100) { showWarning('Mínimo 100'); return; }
             if (qty > 100000) { showWarning('Máximo 100k'); return; }
-            openModal(qty, type);
             const price = calculatePrice(customPlatform, qty, type);
+            // Abrir modal con la plataforma seleccionada en el personalizado
+            openModal(qty, type, customPlatform);
+            // Actualizar el texto de cantidad para mostrar el precio correcto según plataforma
             document.getElementById('followers').value = qty + ' (Personalizado - $' + (price ? price.toFixed(2) : '?') + ')';
         }
 
@@ -1330,12 +1334,13 @@
             display.textContent = '$' + price.toFixed(2);
             detail.textContent = customPlatformLikes + ' - ' + qty.toLocaleString() + ' likes';
         }
+        // === MODIFICADA: buyCustomLikes ahora pasa la plataforma y el precio correcto ===
         function buyCustomLikes() {
             const qty = parseInt(document.getElementById('customQuantityLikes').value);
             if (isNaN(qty) || qty < 100) { showWarning('Mínimo 100'); return; }
             if (qty > 100000) { showWarning('Máximo 100k'); return; }
-            openModal(qty, 'likes');
             const price = calculatePrice(customPlatformLikes, qty, 'likes');
+            openModal(qty, 'likes', customPlatformLikes);
             document.getElementById('followers').value = qty + ' (Personalizado - $' + (price ? price.toFixed(2) : '?') + ')';
         }
 
